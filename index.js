@@ -25,21 +25,23 @@ io.on("connection", function(socket) {
       users: userService.getAllUsers()
     });
   });
-  io.on("connection", function(socket) {
-    socket.on("disconnect", () => {
-      userService.removeUser(socket.id);
-      socket.broadcast.emit("update", {
-        users: userService.getAllUsers()
-      });
+});
+
+io.on("connection", function(socket) {
+  socket.on("disconnect", () => {
+    userService.removeUser(socket.id);
+    socket.broadcast.emit("update", {
+      users: userService.getAllUsers()
     });
   });
-  io.on("connection", function(socket) {
-    socket.on("message", function(message) {
-      const { name } = userService.getUserById(socket.id);
-      socket.broadcast.emit("message", {
-        text: message.text,
-        from: name
-      });
+});
+
+io.on("connection", function(socket) {
+  socket.on("message", function(message) {
+    const { name } = userService.getUserById(socket.id);
+    socket.broadcast.emit("message", {
+      text: message.text,
+      from: name
     });
   });
 });
